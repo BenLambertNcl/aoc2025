@@ -6,21 +6,26 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
 )
 
 func isValidId(id string, exactlyTwiceMultiplier bool) bool {
 	testChars := ""
-	for i := 0; i < len(id); i++ {
+	strLen := len(id)
+
+	for i := 0; i < strLen/2; i++ {
 		testChars += string(id[i])
-		stringRatio := len(id) % len(testChars)
-		multiplier := 2
-		if !exactlyTwiceMultiplier {
-			multiplier = len(id) / len(testChars)
-		}
+		lenTest := len(testChars)
 
 		// If the lengths of these don't divide exactly, they won't repeat so ID is valid
+		stringRatio := strLen % lenTest
 		if stringRatio > 0 {
 			continue
+		}
+
+		multiplier := 2
+		if !exactlyTwiceMultiplier {
+			multiplier = strLen / lenTest
 		}
 
 		if multiplier == 1 {
@@ -81,12 +86,24 @@ func part2(lines []string) int {
 
 func main() {
 	lines := readInstructions()
-	fmt.Println("Day 1:", part1(lines))
-	fmt.Println("Day 2:", part2(lines))
+	start := time.Now()
+	part1 := part1(lines)
+	t := time.Now()
+	elapsed := t.Sub(start)
+	fmt.Println("Day 1:", part1, ", Time:", elapsed)
+
+	start = time.Now()
+	part2 := part2(lines)
+	t = time.Now()
+	elapsed = t.Sub(start)
+	fmt.Println("Day 2:", part2, ", Time:", elapsed)
 }
 
 func readInstructions() []string {
-	data, _ := os.ReadFile("input.txt")
+	data, err := os.ReadFile("input.txt")
+	if err != nil {
+		log.Fatal(err)
+	}
 	return strings.Split(string(data), "\n")
 }
 
