@@ -126,6 +126,6 @@ func main() {
 }
 
 func readInstructions() []string {
-	data, _ := os.ReadFile("day2.txt")
+	data, _ := os.ReadFile("input.txt")
 	return strings.Split(string(data), "\n")
 }
