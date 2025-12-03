@@ -8,12 +8,75 @@ import (
 	"strings"
 )
 
+func findJoltage(line string) string {
+	max := -1
+	maxIndex := -1
+	for i := 0; i < len(line)-1; i++ {
+		num, _ := strconv.Atoi(string(line[i]))
+		if num > max {
+			max = num
+			maxIndex = i
+		}
+
+		if max == 9 {
+			break
+		}
+	}
+
+	nextMax := -1
+	for i := maxIndex + 1; i < len(line); i++ {
+		num, _ := strconv.Atoi(string(line[i]))
+		if num > nextMax {
+			nextMax = num
+		}
+	}
+
+	return fmt.Sprintf("%d%d", max, nextMax)
+}
+
+func findLargestWithEndBuffer(line string, start, buffer int) (int, int) {
+	max := -1
+	index := -1
+	for i := start; i < len(line)-buffer; i++ {
+		num, _ := strconv.Atoi(string(line[i]))
+		if num > max {
+			max = num
+			index = i
+		}
+	}
+	return max, index
+}
+
+func findLargerJoltage(line string) string {
+	lastIndex := -1
+	joltage := ""
+	for i := 1; i <= 12; i++ {
+		value, index := findLargestWithEndBuffer(line, lastIndex+1, 12-i)
+		joltage += strconv.Itoa(value)
+		lastIndex = index
+	}
+
+	return joltage
+}
+
 func part1(lines []string) int {
-	return 0
+	total := 0
+	for _, line := range lines {
+		output := findJoltage(strings.TrimSpace(line))
+		joltage, _ := strconv.Atoi(output)
+		total += joltage
+	}
+	return total
 }
 
 func part2(lines []string) int {
-	return 0
+	total := 0
+	for _, line := range lines {
+		output := findLargerJoltage(strings.TrimSpace(line))
+		joltage, _ := strconv.Atoi(output)
+		total += joltage
+	}
+	return total
 }
 
 func main() {
