@@ -16,7 +16,7 @@ func TestFindJoltage(t *testing.T) {
 	for _, tt := range tests {
 		t.Run("Find Joltages", func(t *testing.T) {
 			want := tt.expected
-			got := findJoltage(tt.input)
+			got := findJoltage(tt.input, 2)
 
 			if got != want {
 				t.Errorf("got %s, want %s", got, want)
@@ -39,7 +39,7 @@ func TestFindLargerJoltage(t *testing.T) {
 	for _, tt := range tests {
 		t.Run("Find Large Joltages", func(t *testing.T) {
 			want := tt.expected
-			got := findLargerJoltage(tt.input)
+			got := findJoltage(tt.input, 12)
 
 			if got != want {
 				t.Errorf("got %s, want %s", got, want)
