@@ -76,3 +76,34 @@ func TestPart1(t *testing.T) {
 		t.Errorf("want %d, got %d", want, got)
 	}
 }
+
+func TestPart2(t *testing.T) {
+	grid := [][]string{
+		{"@", "@", "@"},
+		{"@", "@", "@"},
+		{"@", "@", "@"},
+	}
+
+	want := 9
+	got := part2(grid)
+
+	if want != got {
+		t.Errorf("want %d, got %d", want, got)
+	}
+}
+
+func TestPart2BiggerGrid(t *testing.T) {
+	grid := [][]string{
+		{"@", "@", "@", "@"},
+		{"@", "@", "@", "@"},
+		{"@", "@", "@", "@"},
+		{"@", "@", "@", "@"},
+	}
+
+	want := 4
+	got := part2(grid)
+
+	if want != got {
+		t.Errorf("want %d, got %d", want, got)
+	}
+}
