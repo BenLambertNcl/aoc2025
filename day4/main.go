@@ -39,25 +39,31 @@ func checkAdjacentPositions(grid [][]string, x, y int) int {
 	return count
 }
 
-func forEachGridPosition(grid [][]string, fn func(x, y int)) {
+func forEachGridPosition(grid [][]string, fn func(value string, x, y int)) {
 	for y := 0; y < len(grid); y++ {
 		for x := 0; x < len(grid[y]); x++ {
-			fn(x, y)
+			fn(grid[y][x], x, y)
 		}
 	}
 }
 
-func part1(grid [][]string) int {
-	total := 0
-	forEachGridPosition(grid, func(x, y int) {
-		if grid[y][x] == "@" {
+func checkGrid(grid [][]string) (totalRemoved int, positionsToReplace []positions) {
+	totalRemoved = 0
+	forEachGridPosition(grid, func(value string, x, y int) {
+		if value == "@" {
 			count := checkAdjacentPositions(grid, x, y)
 			if count < 4 {
-				total++
+				totalRemoved++
+				positionsToReplace = append(positionsToReplace, positions{x, y})
 			}
 		}
 	})
 
+	return
+}
+
+func part1(grid [][]string) int {
+	total, _ := checkGrid(grid)
 	return total
 }
 
@@ -68,16 +74,7 @@ func part2(grid [][]string) int {
 
 	// Run until the previous look found no valid positions
 	for lastLoopTotal != 0 {
-		lastLoopTotal = 0
-		forEachGridPosition(grid, func(x, y int) {
-			if grid[y][x] == "@" {
-				count := checkAdjacentPositions(grid, x, y)
-				if count < 4 {
-					lastLoopTotal++
-					positionsToReplace = append(positionsToReplace, positions{x, y})
-				}
-			}
-		})
+		lastLoopTotal, positionsToReplace = checkGrid(grid)
 
 		for _, pos := range positionsToReplace {
 			grid[pos.y][pos.x] = "."

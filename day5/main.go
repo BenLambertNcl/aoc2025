@@ -27,6 +27,16 @@ func readInstructions() []string {
 	return strings.Split(string(data), "\n")
 }
 
+func readInstructionsAsGrid() [][]string {
+	data, _ := os.ReadFile("input.txt")
+	lines := strings.Split(string(data), "\r\n")
+	grid := make([][]string, len(lines))
+	for i, line := range lines {
+		grid[i] = strings.Split(line, "")
+	}
+	return grid
+}
+
 func parseIntOrError(num string) int {
 	parsed, err := strconv.ParseInt(num, 10, 64)
 	if err != nil {
