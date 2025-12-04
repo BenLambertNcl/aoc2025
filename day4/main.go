@@ -63,16 +63,17 @@ func part1(grid [][]string) int {
 
 func part2(grid [][]string) int {
 	total := 0
-	positionsToReplace := []positions{}
-	currentTotal := -1
+	var positionsToReplace []positions
+	lastLoopTotal := -1
 
-	for currentTotal != 0 {
-		currentTotal = 0
+	// Run until the previous look found no valid positions
+	for lastLoopTotal != 0 {
+		lastLoopTotal = 0
 		forEachGridPosition(grid, func(x, y int) {
 			if grid[y][x] == "@" {
 				count := checkAdjacentPositions(grid, x, y)
 				if count < 4 {
-					currentTotal++
+					lastLoopTotal++
 					positionsToReplace = append(positionsToReplace, positions{x, y})
 				}
 			}
@@ -82,7 +83,7 @@ func part2(grid [][]string) int {
 			grid[pos.y][pos.x] = "."
 		}
 
-		total += currentTotal
+		total += lastLoopTotal
 	}
 
 	return total
